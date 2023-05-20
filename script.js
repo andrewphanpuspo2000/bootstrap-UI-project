@@ -1,5 +1,6 @@
 let taskArr = [];
-
+let totalHrTemp = 0;
+const maxHours = 168;
 const handleOnSubmit = (e) => {
   const formData = new FormData(e);
   const task = formData.get("task");
@@ -11,7 +12,12 @@ const handleOnSubmit = (e) => {
     id: randomGenerator(),
     type: "entry",
   };
-  taskArr.push(taskObj);
+  let totalHrBeforepush = parseInt(hr) + totalHrTemp;
+  if (totalHrBeforepush < maxHours) {
+    taskArr.push(taskObj);
+  } else {
+    alert("Sorry, the total hours is over the limit");
+  }
   console.log(typeof task);
   console.log(taskObj);
   console.log(taskArr);
@@ -110,7 +116,8 @@ const displayTotalHours = () => {
   taskArr.forEach((item, i) => {
     sum += parseInt(item.hr);
   });
-  getTotalHr.innerText = `Total hours is ${sum}`;
+  getTotalHr.innerText = `Total hours is ${sum}/168 hours`;
+  totalHrTemp = sum;
 };
 
 const displaySaveHr = () => {
